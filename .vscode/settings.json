@@ -1,0 +1,20 @@
+{
+  // Enable auto-format on save
+  "editor.formatOnSave": true,
+
+  // Set Prettier as the default formatter
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+  // Optionally, you can set other Prettier specific settings
+  "prettier.printWidth": 80,          // Set max line length
+  "prettier.tabWidth": 2,             // Set the number of spaces per indentation level
+  "prettier.singleQuote": true,       // Use single quotes instead of double quotes
+  "prettier.trailingComma": "es5",    // Add trailing commas where valid in ES5 (objects, arrays, etc.)
+  "prettier.semi": true,              // Add semicolons at the end of statements
+  "prettier.useTabs": false,          // Use spaces instead of tabs
+  "prettier.bracketSpacing": true,    // Print spaces between brackets in object literals
+  "prettier.arrowParens": "always",   // Include parentheses around a sole arrow function parameter
+  "prettier.proseWrap": "always",     // Wrap markdown text as well
+  "prettier.htmlWhitespaceSensitivity": "ignore", // Ignore whitespace sensitivity in HTML
+  "prettier.endOfLine": "lf"          // Ensure consistent line endings
+}

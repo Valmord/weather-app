@@ -1,0 +1,56 @@
+
+
+***** FONTS *****
+npminstall--save-dev csv-loader xml-loader
+
+
+Under modules / rules:
+{
+  test: /\.(woff|woff2|eot|ttf|otf)$/i,
+  type: 'asset/resource',
+},
+
+
+
+***** XML / CSV *****
+
+{
+  test: /\.(csv|tsv)$/i,
+  use: ['csv-loader'],
+},
+{
+  test: /\.xml$/i,
+  use: ['xml-loader'],
+},
+
+***** JSON *****  
+npminstall toml yamljs json5 --save-dev
+
+{
+  test: /\.toml$/i,
+  type: 'json',
+  parser: {
+    parse: toml.parse,
+  },
+},
+{
+  test: /\.yaml$/i,
+  type: 'json',
+  parser: {
+    parse: yaml.parse,
+  },
+},
+{
+  test: /\.json5$/i,
+  type: 'json',
+  parser: {
+    parse: json5.parse,
+  },
+},
+
+import data from './data.json';
+
+In JS file:
+import toml from './data.toml';
+import yaml from './data.yaml';
+import json from './data.json5';
