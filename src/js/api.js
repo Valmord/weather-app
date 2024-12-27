@@ -15,14 +15,14 @@ const fetchData = async function fetchDataFromAPI(location) {
   const url = getFetchURL(urlLocation);
   try {
     const response = await fetch(url);
-    if (response.ok) {
-      console.log(response);
-      const data = await response.json();
-      console.log(data);
-    } else
+    if (!response.ok)
       throw new Error(
         `Error, couldn't fetch. Response status ${response.status}`,
       );
+
+    const data = await response.json();
+    console.log(data);
+    return data;
   } catch (err) {
     console.error(err.message);
   }

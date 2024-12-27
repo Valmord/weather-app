@@ -1,4 +1,7 @@
 import "../css/styles.css";
-import fetchData from "./api";
+import setupListeners from "./events";
+// import fetchData from "./api";
 
-fetchData("Auckland New Zealand");
+// fetchData("Auckland New Zealand");
+
+setupListeners();
