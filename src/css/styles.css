@@ -131,3 +131,11 @@ ul > li:first-child {
   align-items: center;
   padding: 20px 0px;
 }
+
+.temp::after {
+  content: "°F";
+}
+
+.temp-celsius::after {
+  content: "°C";
+}

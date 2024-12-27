@@ -1,6 +1,7 @@
 import cloudyImage from "../assets/images/cloudy.jpg";
 import defaultImage from "../assets/images/default.png";
 import clearImage from "../assets/images/clear.jpg";
+import { formatDateDDYY } from "./utils";
 
 const images = {
   default: { file: defaultImage, author: "" },
@@ -54,10 +55,18 @@ const createCurrentElements = function createCurrentElements(tempArray) {
     ul.appendChild(desc);
     ul.appendChild(value);
     desc.textContent = tempDescriptions[index];
-    value.textContent = `${temp}°`;
+    value.textContent = temp;
+    value.classList.add("temp");
     tempContainer.appendChild(ul);
   });
   return tempContainer;
+};
+
+const clearTemps = function clearTemps() {
+  const tempContainers = document.querySelectorAll(".temp-container");
+  tempContainers.forEach((container) => {
+    container.remove();
+  });
 };
 
 const displayCurrent = function displayCurrentWeatherData(
@@ -71,10 +80,50 @@ const displayCurrent = function displayCurrentWeatherData(
   tempElement.appendChild(createCurrentElements([tempmin, temp, tempmax]));
 };
 
+const createFutureElements = function createFutureElements(dayArray) {
+  const tempContainer = document.createElement("div");
+  tempContainer.className = "temp-container";
+
+  dayArray.forEach((day) => {
+    const ul = document.createElement("ul");
+    const date = document.createElement("li");
+    const min = document.createElement("li");
+    const current = document.createElement("li");
+    const max = document.createElement("li");
+    ul.appendChild(date);
+    ul.appendChild(min);
+    ul.appendChild(current);
+    ul.appendChild(max);
+
+    date.textContent = formatDateDDYY(day.datetime);
+    min.textContent = day.tempmin;
+    current.textContent = day.temp;
+    max.textContent = day.tempmax;
+
+    min.classList.add("temp");
+    current.classList.add("temp");
+    max.classList.add("temp");
+
+    tempContainer.appendChild(ul);
+  });
+  return tempContainer;
+};
+
+const DAYS_TO_DISPLAY = 3;
+
+const displayFuture = function displayFutureWeatherData(dayData) {
+  const futureElement = document.querySelector(".future");
+  futureElement.appendChild(
+    createFutureElements(dayData.slice(1, DAYS_TO_DISPLAY + 1)),
+  );
+};
+
 const updateDOM = function updateDOM(weatherData) {
   updateBackground(weatherData.currentConditions.conditions);
   updateForm();
+  clearTemps();
   displayCurrent(weatherData.resolvedAddress, weatherData.days[0]);
+  displayFuture(weatherData.days);
 };
 
 const init = function initialiseDOM() {
