@@ -1,3 +1,5 @@
+import updateDOM from "./dom";
+
 const { default: fetchData } = require("./api");
 
 const searchInput = document.querySelector("input");
@@ -8,11 +10,13 @@ const clearForm = function clearForm() {
 };
 
 const setupListeners = function setupFormListeners() {
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     event.stopPropagation();
     if (searchInput.validity.valid) {
-      fetchData(searchInput.value);
+      const data = await fetchData(searchInput.value);
+      console.log(data);
+      updateDOM(data);
       clearForm();
     }
   });
