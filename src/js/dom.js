@@ -1,9 +1,11 @@
 import cloudyImage from "../assets/images/cloudy.jpg";
 import defaultImage from "../assets/images/default.png";
+import clearImage from "../assets/images/clear.jpg";
 
 const images = {
   default: { file: defaultImage, author: "" },
-  sunny: {
+  clear: {
+    file: clearImage,
     author:
       'Photo by <a href="https://unsplash.com/@frostroomhead?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Rodion Kutsaiev</a> on <a href="https://unsplash.com/photos/green-leafed-tree-near-withered-grass-a7IVuJwYjp8?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>',
   },
@@ -17,14 +19,22 @@ const images = {
   thunder: {},
 };
 
-const updateBackground = function updateBackgroundFromString(picture) {
+const getWeatherPicture = function (condition) {
+  const keys = Object.keys(images);
+  for (let i = 0; i < keys.length; i++) {
+    if (keys[i].includes(condition.toLowerCase())) return images[keys[i]];
+  }
+  return images.default;
+};
+
+const updateBackground = function updateBackgroundFromString(condition) {
   const body = document.querySelector("body");
-  const image = images[picture] || images.default;
+  const image = getWeatherPicture(condition);
   body.style.backgroundImage = `url('${image.file}')`;
 };
 
-const updateDOM = function updateDOM() {
-  updateBackground("string");
+const updateDOM = function updateDOM(weatherData) {
+  updateBackground(weatherData.currentConditions.conditions);
 };
 
 export default updateDOM;
