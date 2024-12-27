@@ -27,14 +27,59 @@ const getWeatherPicture = function (condition) {
   return images.default;
 };
 
+const updateForm = function updateFormClasses() {
+  const form = document.querySelector("form");
+  const outputElement = document.querySelector(".output");
+
+  form.classList.add("search");
+  outputElement.classList.remove("hidden");
+};
+
 const updateBackground = function updateBackgroundFromString(condition) {
   const body = document.querySelector("body");
   const image = getWeatherPicture(condition);
   body.style.backgroundImage = `url('${image.file}')`;
 };
 
+const createCurrentElements = function createCurrentElements(tempArray) {
+  const tempContainer = document.createElement("div");
+  tempContainer.className = "temp-container";
+
+  const tempDescriptions = ["Low", "Current", "High"];
+
+  tempArray.forEach((temp, index) => {
+    const ul = document.createElement("ul");
+    const desc = document.createElement("li");
+    const value = document.createElement("li");
+    ul.appendChild(desc);
+    ul.appendChild(value);
+    desc.textContent = tempDescriptions[index];
+    value.textContent = `${temp}°`;
+    tempContainer.appendChild(ul);
+  });
+  return tempContainer;
+};
+
+const displayCurrent = function displayCurrentWeatherData(
+  search,
+  { temp, tempmin, tempmax },
+) {
+  const tempElement = document.querySelector(".current");
+  const header = tempElement.querySelector("h4");
+  header.textContent = search;
+
+  tempElement.appendChild(createCurrentElements([tempmin, temp, tempmax]));
+};
+
 const updateDOM = function updateDOM(weatherData) {
   updateBackground(weatherData.currentConditions.conditions);
+  updateForm();
+  displayCurrent(weatherData.resolvedAddress, weatherData.days[0]);
 };
+
+const init = function initialiseDOM() {
+  updateBackground("default");
+};
+init();
 
 export default updateDOM;
