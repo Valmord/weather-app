@@ -1,9 +1,15 @@
-export const fToCelsius = function fahrenheitToCelsius(f) {
-  return (f - 32) * (5 / 9);
+const NUMBER_OF_DP = 2;
+
+export const fToCelsius = function fahrenheitToCelsius(temp) {
+  const f = Number(temp);
+  if (Number.isNaN(f)) throw Error("Invalid Value");
+  return ((f - 32) * (5 / 9)).toFixed(NUMBER_OF_DP);
 };
 
-export const cToFahrenheit = function celsiusToFahrenheit(c) {
-  return (c * 9) / 5 + 32;
+export const cToFahrenheit = function celsiusToFahrenheit(temp) {
+  const c = Number(temp);
+  if (Number.isNaN(c)) throw Error("Invalid Value");
+  return ((c * 9) / 5 + 32).toFixed(NUMBER_OF_DP);
 };
 
 export const formatDateDDYY = function formatDateToDayYear(date) {

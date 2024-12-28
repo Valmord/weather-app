@@ -1,7 +1,43 @@
 import cloudyImage from "../assets/images/cloudy.jpg";
 import defaultImage from "../assets/images/default.png";
 import clearImage from "../assets/images/clear.jpg";
-import { formatDateDDYY } from "./utils";
+import { cToFahrenheit, formatDateDDYY, fToCelsius } from "./utils";
+
+let isCelsius = true;
+const convertTemp = function convertTempIfRequired(temp) {
+  if (isCelsius) {
+    return fToCelsius(temp);
+  }
+  return Number(temp).toFixed(2);
+};
+
+export const updateToggleBtn = function updateToggleBtn() {
+  const toggleBtn = document.querySelector("#toggle-temp");
+  if (isCelsius) {
+    toggleBtn.textContent = "Change to °F";
+  } else {
+    toggleBtn.textContent = "Change to °C";
+  }
+};
+
+export const updateTemps = function updateTempsBasedOnAbove() {
+  isCelsius = !isCelsius;
+  if (isCelsius) {
+    /* eslint-disable no-param-reassign */
+    const temps = document.querySelectorAll(".temp");
+    temps.forEach((temp) => {
+      temp.className = "temp-celsius";
+      temp.textContent = fToCelsius(temp.textContent);
+    });
+  } else {
+    const temps = document.querySelectorAll(".temp-celsius");
+    temps.forEach((temp) => {
+      temp.className = "temp";
+      temp.textContent = cToFahrenheit(temp.textContent);
+      /* eslint-enable no-param-reassign */
+    });
+  }
+};
 
 const images = {
   default: { file: defaultImage, author: "" },
@@ -49,15 +85,15 @@ const createCurrentElements = function createCurrentElements(tempArray) {
   const tempDescriptions = ["Low", "Current", "High"];
 
   tempArray.forEach((temp, index) => {
-    const ul = document.createElement("ul");
-    const desc = document.createElement("li");
-    const value = document.createElement("li");
-    ul.appendChild(desc);
-    ul.appendChild(value);
+    const container = document.createElement("div");
+    const desc = document.createElement("h5");
+    const value = document.createElement("p");
+    container.appendChild(desc);
+    container.appendChild(value);
     desc.textContent = tempDescriptions[index];
-    value.textContent = temp;
-    value.classList.add("temp");
-    tempContainer.appendChild(ul);
+    value.textContent = convertTemp(temp);
+    value.classList.add("temp-celsius");
+    tempContainer.appendChild(container);
   });
   return tempContainer;
 };
@@ -85,26 +121,26 @@ const createFutureElements = function createFutureElements(dayArray) {
   tempContainer.className = "temp-container";
 
   dayArray.forEach((day) => {
-    const ul = document.createElement("ul");
-    const date = document.createElement("li");
-    const min = document.createElement("li");
-    const current = document.createElement("li");
-    const max = document.createElement("li");
-    ul.appendChild(date);
-    ul.appendChild(min);
-    ul.appendChild(current);
-    ul.appendChild(max);
+    const container = document.createElement("div");
+    const date = document.createElement("h5");
+    const min = document.createElement("p");
+    const current = document.createElement("p");
+    const max = document.createElement("p");
+    container.appendChild(date);
+    container.appendChild(min);
+    container.appendChild(current);
+    container.appendChild(max);
 
     date.textContent = formatDateDDYY(day.datetime);
-    min.textContent = day.tempmin;
-    current.textContent = day.temp;
-    max.textContent = day.tempmax;
+    min.textContent = convertTemp(day.tempmin);
+    current.textContent = convertTemp(day.temp);
+    max.textContent = convertTemp(day.tempmax);
 
-    min.classList.add("temp");
-    current.classList.add("temp");
-    max.classList.add("temp");
+    min.classList.add("temp-celsius");
+    current.classList.add("temp-celsius");
+    max.classList.add("temp-celsius");
 
-    tempContainer.appendChild(ul);
+    tempContainer.appendChild(container);
   });
   return tempContainer;
 };

@@ -1,4 +1,4 @@
-import updateDOM from "./dom";
+import updateDOM, { updateTemps, updateToggleBtn } from "./dom";
 
 const { default: fetchData } = require("./api");
 
@@ -19,6 +19,12 @@ const setupListeners = function setupFormListeners() {
       updateDOM(data);
       clearForm();
     }
+  });
+
+  const toggleTempType = document.querySelector("#toggle-temp");
+  toggleTempType.addEventListener("click", () => {
+    updateTemps();
+    updateToggleBtn();
   });
 };
 
