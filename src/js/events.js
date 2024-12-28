@@ -15,7 +15,7 @@ const setupListeners = function setupFormListeners() {
     event.stopPropagation();
     if (searchInput.validity.valid) {
       const data = await fetchData(searchInput.value);
-      console.log(data);
+      if (!data) return;
       updateDOM(data);
       clearForm();
     }

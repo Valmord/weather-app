@@ -1,6 +1,9 @@
 import cloudyImage from "../assets/images/cloudy.jpg";
 import defaultImage from "../assets/images/default.png";
 import clearImage from "../assets/images/clear.jpg";
+import rainImage from "../assets/images/rain.jpg";
+import lightningImage from "../assets/images/lightning.jpg";
+import snowImage from "../assets/images/snow.jpg";
 import { cToFahrenheit, formatDateDDYY, fToCelsius } from "./utils";
 
 let isCelsius = true;
@@ -40,26 +43,19 @@ export const updateTemps = function updateTempsBasedOnAbove() {
 };
 
 const images = {
-  default: { file: defaultImage, author: "" },
-  clear: {
-    file: clearImage,
-    author:
-      'Photo by <a href="https://unsplash.com/@frostroomhead?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Rodion Kutsaiev</a> on <a href="https://unsplash.com/photos/green-leafed-tree-near-withered-grass-a7IVuJwYjp8?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>',
-  },
-  cloudy: {
-    file: cloudyImage,
-    author:
-      'Photo by <a href="https://unsplash.com/@conti_photos?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Fabrizio Conti</a> on <a href="https://unsplash.com/photos/photo-of-clouds-Mbm0WnJ5emc?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>',
-  },
-  rain: {},
-  snow: {},
-  thunder: {},
+  default: defaultImage,
+  clear: clearImage,
+  cloudy: cloudyImage,
+  rain: rainImage,
+  snow: snowImage,
+  thunder: lightningImage,
+  lightning: lightningImage,
 };
 
 const getWeatherPicture = function (condition) {
   const keys = Object.keys(images);
   for (let i = 0; i < keys.length; i++) {
-    if (keys[i].includes(condition.toLowerCase())) return images[keys[i]];
+    if (condition.toLowerCase().includes(keys[i])) return images[keys[i]];
   }
   return images.default;
 };
@@ -75,7 +71,7 @@ const updateForm = function updateFormClasses() {
 const updateBackground = function updateBackgroundFromString(condition) {
   const body = document.querySelector("body");
   const image = getWeatherPicture(condition);
-  body.style.backgroundImage = `url('${image.file}')`;
+  body.style.backgroundImage = `url('${image}')`;
 };
 
 const createCurrentElements = function createCurrentElements(tempArray) {
@@ -155,7 +151,7 @@ const displayFuture = function displayFutureWeatherData(dayData) {
 };
 
 const updateDOM = function updateDOM(weatherData) {
-  updateBackground(weatherData.currentConditions.conditions);
+  updateBackground(weatherData.currentConditions.icon);
   updateForm();
   clearTemps();
   displayCurrent(weatherData.resolvedAddress, weatherData.days[0]);
