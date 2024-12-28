@@ -10,7 +10,7 @@ const getFetchURL = function getFetchURL(location) {
   return url;
 };
 
-const fetchData = async function fetchDataFromAPI(location) {
+export const fetchData = async function fetchDataFromAPI(location) {
   const urlLocation = formatLocationForURL(location);
   const url = getFetchURL(urlLocation);
   try {
@@ -21,11 +21,22 @@ const fetchData = async function fetchDataFromAPI(location) {
       );
 
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (err) {
     console.error(err.message);
   }
 };
 
-export default fetchData;
+export const fetchIcon = async function fetchIconFromGithub(icon) {
+  const url = `https://raw.githubusercontent.com/visualcrossing/WeatherIcons/refs/heads/main/SVG/1st%20Set%20-%20Color/${icon}.svg`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok)
+      throw new Error(`Couldn't fetch icon, status ${response.status}`);
+    const data = await response.text();
+    console.log(data);
+    return data;
+  } catch (err) {
+    console.error(err.message);
+  }
+};

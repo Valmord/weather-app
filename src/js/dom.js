@@ -5,6 +5,7 @@ import rainImage from "../assets/images/rain.jpg";
 import lightningImage from "../assets/images/lightning.jpg";
 import snowImage from "../assets/images/snow.jpg";
 import { cToFahrenheit, formatDateDDYY, fToCelsius } from "./utils";
+import { fetchIcon } from "./api";
 
 let isCelsius = true;
 const convertTemp = function convertTempIfRequired(temp) {
@@ -101,15 +102,26 @@ const clearTemps = function clearTemps() {
   });
 };
 
-const displayCurrent = function displayCurrentWeatherData(
-  search,
-  { temp, tempmin, tempmax },
+const displayCurrent = async function displayCurrentWeatherData(
+  address,
+  { conditions, temp, datetime, icon },
 ) {
-  const tempElement = document.querySelector(".current");
-  const header = tempElement.querySelector("h4");
-  header.textContent = search;
+  // const tempElement = document.querySelector(".current");
+  const header = document.querySelector("h1");
+  header.textContent = address;
 
-  tempElement.appendChild(createCurrentElements([tempmin, temp, tempmax]));
+  const currentTime = document.querySelector(".time");
+  const currentTemp = document.querySelector(".current-temp");
+  const currentConditions = document.querySelector(".current-condition");
+  const currentIcon = document.querySelector(".weather-icon");
+
+  currentTime.textContent = datetime;
+  currentTemp.textContent = convertTemp(temp);
+  currentConditions.textContent = conditions;
+
+  const test = await fetchIcon(icon);
+  currentIcon.innerHTML = test;
+  // tempElement.appendChild(createCurrentElements([tempmin, temp, tempmax]));
 };
 
 const createFutureElements = function createFutureElements(dayArray) {
@@ -122,9 +134,16 @@ const createFutureElements = function createFutureElements(dayArray) {
     const min = document.createElement("p");
     const current = document.createElement("p");
     const max = document.createElement("p");
+    const minSub = document.createElement("sub");
+    const currentSub = document.createElement("sub");
+    const maxSub = document.createElement("sub");
+
     container.appendChild(date);
+    container.appendChild(minSub);
     container.appendChild(min);
+    container.appendChild(currentSub);
     container.appendChild(current);
+    container.appendChild(maxSub);
     container.appendChild(max);
 
     date.textContent = formatDateDDYY(day.datetime);
@@ -135,6 +154,10 @@ const createFutureElements = function createFutureElements(dayArray) {
     min.classList.add("temp-celsius");
     current.classList.add("temp-celsius");
     max.classList.add("temp-celsius");
+
+    minSub.textContent = "min";
+    currentSub.textContent = "now";
+    maxSub.textContent = "max";
 
     tempContainer.appendChild(container);
   });
@@ -154,13 +177,13 @@ const updateDOM = function updateDOM(weatherData) {
   updateBackground(weatherData.currentConditions.icon);
   updateForm();
   clearTemps();
-  displayCurrent(weatherData.resolvedAddress, weatherData.days[0]);
+  displayCurrent(weatherData.resolvedAddress, weatherData.currentConditions);
   displayFuture(weatherData.days);
 };
 
 const init = function initialiseDOM() {
   updateBackground("default");
 };
-init();
+// init();
 
 export default updateDOM;

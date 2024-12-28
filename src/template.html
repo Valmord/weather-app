@@ -6,21 +6,13 @@
     <title>Weather App</title>
   </head>
   <body>
-    <h1>Weather Project</h1>
-    <form action="#" novalidate>
-      <label for="location">Enter Location</label>
-      <input
-        type="text"
-        id="location"
-        placeholder="New York"
-        required
-        minlength="2"
-      />
-      <div class="form-btns">
-        <button type="submit">Weather Search</button>
-        <button type="button" id="toggle-temp">Change to °F</button>
-      </div>
-    </form>
+    <h1>Welcome to my Weather Project</h1>
+    <div class="current-info">
+      <p class="time"></p>
+      <p class="current-temp temp-celsius"></p>
+      <p class="current-condition"></p>
+      <p class="weather-icon"></p>
+    </div>
     <div class="output hidden">
       <h2></h2>
       <div class="current">
@@ -31,5 +23,16 @@
         <h4>Upcoming weather</h4>
       </div>
     </div>
+    <form action="#" novalidate>
+      <label for="location">Enter Location</label>
+      <input
+        type="search"
+        id="location"
+        placeholder="New York"
+        required
+        minlength="2"
+      />
+    </form>
+    <!-- <button type="button" id="toggle-temp">Change to °F</button> -->
   </body>
 </html>
