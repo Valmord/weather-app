@@ -132,21 +132,24 @@ const createFutureElements = function createFutureElements(dayArray) {
 
   dayArray.forEach((day) => {
     const container = document.createElement("div");
-    const date = document.createElement("h5");
+    const date = document.createElement("h4");
     const min = document.createElement("p");
     const current = document.createElement("p");
     const max = document.createElement("p");
-    const minSub = document.createElement("sub");
-    const currentSub = document.createElement("sub");
-    const maxSub = document.createElement("sub");
+    const minHead = document.createElement("h5");
+    const curHead = document.createElement("h5");
+    const maxHead = document.createElement("h5");
 
     container.appendChild(date);
-    container.appendChild(minSub);
-    container.appendChild(min);
-    container.appendChild(currentSub);
-    container.appendChild(current);
-    container.appendChild(maxSub);
-    container.appendChild(max);
+    container.appendChild(curHead);
+    container.appendChild(minHead);
+    container.appendChild(maxHead);
+
+    const time = document.querySelector(".time").textContent.toLowerCase();
+
+    curHead.textContent = `Temp est @ ${time}`;
+    minHead.textContent = "min";
+    maxHead.textContent = "max";
 
     date.textContent = formatDateDDYY(day.datetime);
     min.textContent = convertTemp(day.tempmin);
@@ -157,10 +160,9 @@ const createFutureElements = function createFutureElements(dayArray) {
     current.classList.add("temp-celsius");
     max.classList.add("temp-celsius");
 
-    minSub.textContent = "min";
-    currentSub.textContent = "now";
-    maxSub.textContent = "max";
-
+    curHead.appendChild(current);
+    minHead.appendChild(min);
+    maxHead.appendChild(max);
     tempContainer.appendChild(container);
   });
   return tempContainer;
@@ -169,7 +171,7 @@ const createFutureElements = function createFutureElements(dayArray) {
 const DAYS_TO_DISPLAY = 3;
 
 const displayFuture = function displayFutureWeatherData(dayData) {
-  const futureElement = document.querySelector(".future");
+  const futureElement = document.querySelector(".output");
   futureElement.appendChild(
     createFutureElements(dayData.slice(1, DAYS_TO_DISPLAY + 1)),
   );
