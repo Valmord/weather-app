@@ -20,3 +20,12 @@ export const formatDateDDYY = function formatDateToDayYear(date) {
   const formattedDate = `${splitDate[0]} ${splitDate[2]} ${splitDate[1]}`;
   return formattedDate;
 };
+
+export const formatTime = function formatTimeFromString(time) {
+  const timeArr = time.split(":");
+  let timeHour = +timeArr[0] > 12 ? +timeArr[0] - 12 : +timeArr[0];
+  if (timeHour === 0) timeHour = 12;
+  const timeMinute = timeArr[1];
+  const timeSuffix = +timeArr[0] > 11 ? "pm" : "am";
+  return `${timeHour}:${timeMinute}${timeSuffix}`;
+};

@@ -4,7 +4,7 @@ import clearImage from "../assets/images/clear.jpg";
 import rainImage from "../assets/images/rain.jpg";
 import lightningImage from "../assets/images/lightning.jpg";
 import snowImage from "../assets/images/snow.jpg";
-import { cToFahrenheit, formatDateDDYY, fToCelsius } from "./utils";
+import { cToFahrenheit, formatDateDDYY, formatTime, fToCelsius } from "./utils";
 import { fetchIcon } from "./api";
 
 let isCelsius = true;
@@ -64,9 +64,11 @@ const getWeatherPicture = function (condition) {
 const updateForm = function updateFormClasses() {
   const form = document.querySelector("form");
   const outputElement = document.querySelector(".output");
+  const currentInfo = document.querySelector(".current-info");
 
   form.classList.add("search");
   outputElement.classList.remove("hidden");
+  currentInfo.classList.remove("hidden");
 };
 
 const updateBackground = function updateBackgroundFromString(condition) {
@@ -115,7 +117,7 @@ const displayCurrent = async function displayCurrentWeatherData(
   const currentConditions = document.querySelector(".current-condition");
   const currentIcon = document.querySelector(".weather-icon");
 
-  currentTime.textContent = datetime;
+  currentTime.textContent = `At ${formatTime(datetime)}`;
   currentTemp.textContent = convertTemp(temp);
   currentConditions.textContent = conditions;
 
